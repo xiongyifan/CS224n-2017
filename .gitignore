@@ -99,3 +99,4 @@ ENV/
 .mypy_cache/
 .idea/
 assignment1/utils/datasets/
+saved_params_*

@@ -49,10 +49,9 @@ def forward_backward_prop(data, labels, params, dimensions):
     d1 = (y_ - labels) / data.shape[0]
     gradW2 = np.dot(a1.T, d1)
     gradb2 = np.sum(d1, 0, keepdims=True)
-    d2 = np.dot(d1, W2.T)
-    d3 = d2 * sigmoid_grad(a1)
-    gradW1 = np.dot(data.T, d3)
-    gradb1 = np.sum(d3, 0, keepdims=True)
+    d2 = np.dot(d1, W2.T) * sigmoid_grad(a1)
+    gradW1 = np.dot(data.T, d2)
+    gradb1 = np.sum(d2, 0, keepdims=True)
     ### END YOUR CODE
 
     ### Stack gradients (do not modify)
