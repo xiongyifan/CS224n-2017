@@ -17,7 +17,7 @@ from q3_sgd import load_saved_params, sgd
 # the functions yourself!
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix
-
+from q3_word2vec import normalizeRows
 
 def getArguments():
     parser = argparse.ArgumentParser()
@@ -49,7 +49,11 @@ def getSentenceFeatures(tokens, wordVectors, sentence):
     sentVector = np.zeros((wordVectors.shape[1],))
 
     ### YOUR CODE HERE
-    raise NotImplementedError
+    for word in sentence:
+        word_index = tokens[word]
+        wordVector = wordVectors[word_index]
+        sentVector += wordVector
+    sentVector /= len(sentence)
     ### END YOUR CODE
 
     assert sentVector.shape == (wordVectors.shape[1],)
@@ -61,9 +65,12 @@ def getRegularizationValues():
 
     Return a sorted list of values to try.
     """
-    values = None   # Assign a list of floats in the block below
+    values = []   # Assign a list of floats in the block below
     ### YOUR CODE HERE
-    raise NotImplementedError
+    # values = np.logspace(-5, 5, num=11, base=10)  # 10 is best on dev. the score is 36.876. so 1 ~ 100 is the area to search.
+    # values = np.logspace(0, 2, num=100, base=10)  # 11.8 is best on dev. the score is 37.239. so 11.2 ~ 12.3 is the area to search.
+    values = np.linspace(11.2 , 12.3, num=50)  # 11.5 is best on dev. the score is 37.33
+    # on test 11.8 is better than 11.5. but when choose params, we can not use test dataset.
     ### END YOUR CODE
     return sorted(values)
 
@@ -87,7 +94,7 @@ def chooseBestModel(results):
     bestResult = None
 
     ### YOUR CODE HERE
-    raise NotImplementedError
+    bestResult = max(results, key=lambda x: x["dev"])
     ### END YOUR CODE
 
     return bestResult
